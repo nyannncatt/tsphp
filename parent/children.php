@@ -41,7 +41,7 @@ $children = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Children - School Management System</title>
+    <title>My Student - School Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -53,7 +53,7 @@ $children = $stmt->get_result();
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item active">My Children</li>
+                        <li class="breadcrumb-item active">My Student</li>
                     </ol>
                 </nav>
             </div>
@@ -63,7 +63,7 @@ $children = $stmt->get_result();
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="mb-0">My Children</h4>
+                        <h4 class="mb-0">My Student</h4>
                     </div>
                     <div class="card-body">
                         <?php if ($children->num_rows == 0): ?>
