@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="icon">
                 <i class="bi bi-display"></i>
             </div>
-            <div class="welcome-text">Welcome to School Management System</div>
+            <div class="welcome-text">Welcome to SchoolComSphere</div>
         </div>
 
         <div class="login-form">
