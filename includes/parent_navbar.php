@@ -6,7 +6,7 @@ $unread_count = getUnreadMessageCount($conn, getUserId());
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/tsphp/parent/dashboard.php">School Management</a>
+        <a class="navbar-brand" href="/tsphp/parent/dashboard.php">SchoolComSphere</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,7 +16,7 @@ $unread_count = getUnreadMessageCount($conn, getUserId());
                     <a class="nav-link" href="/tsphp/parent/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tsphp/parent/children.php">My Children</a>
+                    <a class="nav-link" href="/tsphp/parent/children.php">My Student</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/tsphp/parent/announcements.php">Announcements</a>
