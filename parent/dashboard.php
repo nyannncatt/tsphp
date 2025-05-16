@@ -35,7 +35,7 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parent Dashboard - School Management System</title>
+    <title>Parent Dashboard - SchoolComSphere System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -215,7 +215,7 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
                                 <i class="bi bi-mortarboard-fill text-primary"></i>
                                 <h4 class="mb-0">
                                     <?php echo htmlspecialchars($child['first_name'] . ' ' . $child['last_name']); ?>
-                                    <span class="badge bg-secondary ms-2">Grade <?php echo $child['grade_level']; ?></span>
+                                    <span class="badge bg-secondary ms-2">Year level: <?php echo $child['grade_level']; ?></span>
                                 </h4>
                             </div>
                         </div>
