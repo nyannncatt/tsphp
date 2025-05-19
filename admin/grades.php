@@ -97,10 +97,7 @@ while ($row = $grades->fetch_assoc()) {
             font-family: 'Inter', sans-serif;
         }
 
-        h2 {
-            color: var(--header-text);
-            font-weight: 600;
-        }
+                h2 {            color: var(--text-primary);            font-weight: 600;        }
 
         .card {
             background: var(--card-bg);
@@ -236,7 +233,7 @@ while ($row = $grades->fetch_assoc()) {
     <div class="container mt-4">
         <div class="row mb-4">
             <div class="col-md-12">
-                <h2>Grades Management</h2>
+                <h2><i class="bi bi-journal-check me-2"></i>Grades Management</h2>
             </div>
         </div>
 

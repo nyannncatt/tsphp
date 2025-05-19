@@ -112,24 +112,9 @@ $recipients = $conn->query($query);
             border: none;
         }
 
-        .table {
-            color: var(--text-primary);
-        }
+        .table {            color: #000000;        }        .table > :not(caption) > * > * {            background-color: #ffffff;            border-bottom-color: var(--card-border);        }        .table tbody tr:hover {            background-color: #f8f9fa !important;            color: #000000;        }
 
-        .table > :not(caption) > * > * {
-            background-color: var(--card-bg);
-            border-bottom-color: var(--card-border);
-        }
-
-        .table tbody tr:hover {
-            background-color: var(--hover-bg) !important;
-            color: var(--text-primary);
-        }
-
-        .message-unread {
-            font-weight: bold;
-            color: var(--accent-purple);
-        }
+        .message-unread {            font-weight: bold;            color: #6200ea;        }
 
         .btn-primary {
             background: var(--accent-purple);
@@ -166,12 +151,7 @@ $recipients = $conn->query($query);
             color: var(--text-primary);
         }
 
-        .alert {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            border-radius: 0.5rem;
-        }
+        .alert {            background: var(--card-bg);            border: 1px solid var(--card-border);            color: #000000;            border-radius: 0.5rem;        }
 
         .alert-success {
             border-left: 4px solid var(--success-color);
@@ -202,10 +182,7 @@ $recipients = $conn->query($query);
             color: var(--header-text);
         }
 
-        .form-label {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
+        .form-label {            color: #000000;            font-weight: 500;        }
 
         .form-control, .form-select {
             background: #ffffff;

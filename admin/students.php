@@ -43,7 +43,7 @@ $students = $conn->query($query);
         }
 
         .dashboard-title {
-            color: var(--header-text);
+            color: var(--text-primary);
             font-weight: 600;
             margin-bottom: 0;
             font-size: 1.5rem;
@@ -208,7 +208,7 @@ $students = $conn->query($query);
 
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="dashboard-title">Manage Students</h2>
+            <h2 class="dashboard-title"><i class="bi bi-people me-2"></i>Manage Students</h2>
             <div class="d-flex gap-3 align-items-center">
                 <div class="search-bar d-flex align-items-center">
                     <i class="bi bi-search me-2 text-secondary"></i>

@@ -86,14 +86,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+            --header-text: #8b5cf6;
+        }
+
         body {
-            background-color: #f5f5f5;
+            background-color: var(--dark-bg);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
         }
 
         .login-container {
@@ -105,13 +118,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .login-header {
             text-align: center;
             margin-bottom: 2rem;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .login-header .icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            color: #333;
+            color: var(--accent-purple);
             line-height: 1;
             display: flex;
             justify-content: center;
@@ -124,10 +137,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .login-form {
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 2.5rem;
             border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
         }
 
@@ -141,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -156,10 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-control {
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
+            background: var(--hover-bg);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
-            color: #333;
+            color: var(--text-primary);
             padding: 12px 20px;
             height: 50px;
             width: 100%;
@@ -168,15 +182,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .form-control:focus {
-            background: #ffffff;
-            border-color: #2196f3;
-            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
-            color: #333;
+            background: var(--hover-bg);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+            color: var(--text-primary);
             outline: none;
         }
 
         .btn-login {
-            background: #2196f3;
+            background: var(--accent-purple);
             border: none;
             color: white;
             padding: 12px;
@@ -185,35 +199,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             margin-top: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
         }
 
         .btn-login:hover {
-            background: #1976d2;
+            background: #7c4ef3;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
         }
 
         .register-link {
             text-align: center;
             margin-top: 1.5rem;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .register-link a {
-            color: #2196f3;
+            color: var(--accent-purple);
             text-decoration: none;
             transition: all 0.3s ease;
             font-weight: 500;
         }
 
         .register-link a:hover {
-            color: #1976d2;
+            color: #7c4ef3;
         }
 
         .welcome-text {
             text-align: center;
-            color: #333;
+            color: var(--text-primary);
             font-size: 1.8rem;
             margin-bottom: 2.5rem;
             line-height: 1.3;
@@ -221,12 +235,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .alert {
-            background: #fff3f3;
-            border: 1px solid #ffcdd2;
-            color: #f44336;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: #ef4444;
             margin-bottom: 1.5rem;
             border-radius: 8px;
             padding: 1rem;
+            border-left: 4px solid #ef4444;
         }
 
         .alert ul {

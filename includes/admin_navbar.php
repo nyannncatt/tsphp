@@ -3,8 +3,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <style>
     :root {
-        --navbar-bg-start: #e9d5ff;
-        --navbar-bg-end: #d8b4fe;
+        --navbar-bg-start: #d8b4fe;
+        --navbar-bg-end: #c084fc;
         --card-bg: #ffffff;
         --text-color: #2d3748;
         --active-color: #4299e1;
@@ -15,6 +15,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         background: linear-gradient(135deg, var(--navbar-bg-start), var(--navbar-bg-end));
         padding: 1rem 2rem;
         margin-bottom: 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .nav-container {

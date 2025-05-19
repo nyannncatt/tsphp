@@ -7,8 +7,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <style>
     :root {
-        --navbar-bg-start: #1e3c72;
-        --navbar-bg-end: #2a5298;
+        --navbar-bg-start: #d8b4fe;
+        --navbar-bg-end: #c084fc;
         --card-bg: #ffffff;
         --text-color: #2d3748;
         --active-color: #4299e1;
@@ -18,7 +18,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
     .top-navbar {
         background: linear-gradient(135deg, var(--navbar-bg-start), var(--navbar-bg-end));
         padding: 1rem 2rem;
-        margin-bottom: 0;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .nav-container {
@@ -27,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-brand {
-        color: white;
+        color: #4c1d95;
         font-size: 1.5rem;
         text-decoration: none;
         font-weight: 600;
@@ -43,7 +44,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link {
-        color: rgba(255, 255, 255, 0.9);
+        color: #6b21a8;
         text-decoration: none;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
@@ -54,13 +55,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+        background: rgba(147, 51, 234, 0.1);
+        color: #4c1d95;
     }
 
     .nav-link.active {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
+        background: rgba(147, 51, 234, 0.2);
+        color: #4c1d95;
     }
 
     .nav-right {
@@ -68,9 +69,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout {
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #6b21a8;
+        background: rgba(147, 51, 234, 0.1);
+        border: 1px solid rgba(147, 51, 234, 0.2);
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         display: flex;
@@ -81,8 +82,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout:hover {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
+        background: rgba(147, 51, 234, 0.2);
+        color: #4c1d95;
     }
 
     .side-navbar {

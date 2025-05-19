@@ -67,9 +67,10 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
         }
 
         .stat-card .card-title {
-            color: var(--text-secondary);
+            color: #000000;
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .stat-card .card-text {
@@ -100,7 +101,7 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
         }
 
         .announcement-card .card-header h5 {
-            color: var(--header-text);
+            color: #000000;
             margin: 0;
             font-size: 1.1rem;
             font-weight: 600;
@@ -137,19 +138,20 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
         }
 
         .announcement-item h5 {
-            color: var(--stat-text);
+            color: #000000;
             font-size: 1rem;
             margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .announcement-item p {
-            color: var(--text-secondary);
+            color: #000000;
             font-size: 0.875rem;
             margin-bottom: 0.5rem;
         }
 
         .announcement-item .text-muted {
-            color: var(--text-secondary) !important;
+            color: #666666 !important;
             font-size: 0.75rem;
         }
 
@@ -193,12 +195,12 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
 
     <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="dashboard-title mb-0">Admin Dashboard</h2>
+            <h2 class="dashboard-title mb-0"><i class="bi bi-speedometer2 me-2"></i>Teacher Dashboard</h2>
             <div class="search-bar d-flex align-items-center">
                 <i class="bi bi-search me-2 text-secondary"></i>
                 <input type="text" placeholder="Search for anything..." />
             </div>
-                    </div>
+        </div>
 
         <div class="top-stats">
             <div class="stat-card">
@@ -212,22 +214,15 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
                 <div class="icon">
                     <i class="bi bi-people-fill"></i>
                 </div>
-                        <h5 class="card-title">Total Parents</h5>
+                <h5 class="card-title">Total Parents</h5>
                 <p class="card-text"><?php echo $parent_count; ?></p>
-                    </div>
+            </div>
             <div class="stat-card">
                 <div class="icon">
                     <i class="bi bi-book-fill"></i>
                 </div>
                 <h5 class="card-title">Total Courses</h5>
                 <p class="card-text"><?php echo $course_count; ?></p>
-            </div>
-            <div class="stat-card">
-                <div class="icon">
-                    <i class="bi bi-graph-up"></i>
-                </div>
-                <h5 class="card-title">System Growth</h5>
-                <p class="stat-value">+24.5%</p>
             </div>
         </div>
 
@@ -238,15 +233,15 @@ $course_count = $conn->query("SELECT COUNT(*) as count FROM courses")->fetch_ass
                 <a href="announcements.php" class="btn btn-add-announcement">
                     <i class="bi bi-plus-lg me-2"></i>Add New
                 </a>
-                    </div>
+            </div>
             <div class="card-body p-0">
-                        <?php
-                        $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at DESC LIMIT 5");
-                        while ($announcement = $announcements->fetch_assoc()):
-                        ?>
+                <?php
+                $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at DESC LIMIT 5");
+                while ($announcement = $announcements->fetch_assoc()):
+                ?>
                 <div class="announcement-item">
-                            <h5><?php echo htmlspecialchars($announcement['title']); ?></h5>
-                            <p><?php echo htmlspecialchars($announcement['content']); ?></p>
+                    <h5><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                    <p><?php echo htmlspecialchars($announcement['content']); ?></p>
                     <div class="d-flex align-items-center text-muted">
                         <i class="bi bi-clock me-2"></i>
                         <small>Posted on: <?php echo date('M d, Y', strtotime($announcement['created_at'])); ?></small>

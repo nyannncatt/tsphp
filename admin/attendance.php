@@ -90,10 +90,7 @@ $recent_attendance = $conn->query($query);
             font-family: 'Inter', sans-serif;
         }
 
-        h2 {
-            color: var(--header-text);
-            font-weight: 600;
-        }
+                h2 {            color: var(--text-primary);            font-weight: 600;        }
 
         .card {
             background: var(--card-bg);
@@ -269,7 +266,7 @@ $recent_attendance = $conn->query($query);
     <div class="container mt-4">
         <div class="row mb-4">
             <div class="col-md-12">
-                <h2>Attendance Management</h2>
+                <h2><i class="bi bi-calendar-check me-2"></i>Attendance Management</h2>
             </div>
         </div>
 
