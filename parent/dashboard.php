@@ -59,21 +59,17 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
         .dashboard-header {
             background: #242639;
             color: var(--text-primary);
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             margin-bottom: 2rem;
             box-shadow: 0 4px 6px rgba(0,0,0,.2);
             border: 1px solid var(--card-border);
             position: relative;
+            margin-top: 0;
+            border-top: none;
         }
 
         .dashboard-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--accent-purple);
+            display: none;
         }
 
         .dashboard-header h2 {
@@ -283,7 +279,6 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
 </head>
 <body>
     <?php include '../includes/parent_navbar.php'; ?>
-
     <div class="dashboard-header">
         <div class="container">
             <h2 class="mb-0">

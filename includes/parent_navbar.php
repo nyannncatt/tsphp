@@ -7,8 +7,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <style>
     :root {
-        --navbar-bg-start: #1e3c72;
-        --navbar-bg-end: #2a5298;
+        --navbar-bg-start: #242639;
+        --navbar-bg-end: #242639;
         --card-bg: #ffffff;
         --text-color: #2d3748;
         --active-color: #4299e1;
@@ -16,9 +16,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .top-navbar {
-        background: linear-gradient(135deg, var(--navbar-bg-start), var(--navbar-bg-end));
+        background: var(--navbar-bg-start);
         padding: 1rem 2rem;
         margin-bottom: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .nav-container {

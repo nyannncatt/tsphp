@@ -161,10 +161,54 @@ $attendance_rate = $total_days > 0 ? round(($present_days + $late_days) * 100 / 
         .card.bg-success, .card.bg-danger, .card.bg-warning, .card.bg-info {
             border: none;
             transition: transform 0.2s ease-in-out;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .card.bg-success .card-body {
+            background-color: #10b981 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-danger .card-body {
+            background-color: #ef4444 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-warning .card-body {
+            background-color: #f59e0b !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-info .card-body {
+            background-color: #3b82f6 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
         }
 
         .card.bg-success:hover, .card.bg-danger:hover, .card.bg-warning:hover, .card.bg-info:hover {
             transform: translateY(-5px);
+        }
+
+        /* Additional styles for stat card content */
+        .card-body h5.card-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-body h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body p.mb-0 {
+            font-size: 0.875rem;
+            opacity: 0.9;
         }
 
         .text-muted {
