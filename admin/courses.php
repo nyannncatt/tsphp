@@ -200,22 +200,22 @@ $courses = $conn->query($query);
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New Course</h5>
+                    <h5 class="modal-title" style="color: black;">Add New Course</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form action="add_course.php" method="POST">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="course_name" class="form-label">Course Name</label>
-                            <input type="text" class="form-control" id="course_name" name="course_name" required>
+                            <input type="text" class="form-control" id="course_name" name="course_name" required style="color: black;">
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" style="color: black;"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: white; background-color: black;">Close</button>
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-plus-circle me-1"></i>Add Course
                         </button>

@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['student_ids'])) {
                                                 </th>
                                                 <th>Name</th>
                                                 <th>Email</th>
-                                                <th>Grade Level</th>
+                                                <th>Year Level</th>
                                             </tr>
                                         </thead>
                                         <tbody>

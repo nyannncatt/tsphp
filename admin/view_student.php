@@ -84,7 +84,7 @@ $attendance = $stmt->get_result();
                                 <td><?php echo htmlspecialchars($student['email']); ?></td>
                             </tr>
                             <tr>
-                                <th>Grade Level:</th>
+                                <th>Year Level:</th>
                                 <td><?php echo htmlspecialchars($student['grade_level']); ?></td>
                             </tr>
                         </table>
