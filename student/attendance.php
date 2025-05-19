@@ -58,6 +58,163 @@ $attendance_rate = $total_days > 0 ? round(($present_days + $late_days) * 100 / 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Attendance - School Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        .breadcrumb-item a {
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: #7c3aed;
+        }
+        
+        .breadcrumb-item.active {
+            color: var(--text-primary);
+        }
+
+        .card {
+            background: #242639;
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background: #242639;
+            border-bottom: 1px solid var(--card-border);
+            padding: 1.25rem;
+            border-radius: 1rem 1rem 0 0 !important;
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            background: #242639;
+            border-radius: 0 0 1rem 1rem;
+            color: var(--text-primary);
+        }
+
+        .table {
+            color: var(--text-primary);
+        }
+
+        .table > :not(caption) > * > * {
+            background-color: #242639;
+            border-bottom-color: var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .table thead th {
+            border-bottom: 2px solid var(--card-border);
+            color: var(--accent-purple);
+        }
+
+        .alert-info {
+            background-color: #2f3245;
+            border-color: #3f4259;
+            color: var(--text-primary);
+        }
+
+        /* Style adjustments for stat cards */
+        .stat-card {
+            background: #242639;
+            border: 1px solid var(--card-border);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Override Bootstrap badge styles */
+        .badge.bg-primary {
+            background-color: var(--accent-purple) !important;
+        }
+
+        /* Custom styles for attendance stat cards */
+        .card.bg-success, .card.bg-danger, .card.bg-warning, .card.bg-info {
+            border: none;
+            transition: transform 0.2s ease-in-out;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .card.bg-success .card-body {
+            background-color: #10b981 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-danger .card-body {
+            background-color: #ef4444 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-warning .card-body {
+            background-color: #f59e0b !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-info .card-body {
+            background-color: #3b82f6 !important;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .card.bg-success:hover, .card.bg-danger:hover, .card.bg-warning:hover, .card.bg-info:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Additional styles for stat card content */
+        .card-body h5.card-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-body h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body p.mb-0 {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+    </style>
 </head>
 <body>
     <?php include '../includes/student_navbar.php'; ?>
