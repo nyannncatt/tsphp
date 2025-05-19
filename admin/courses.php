@@ -14,62 +14,22 @@ $courses = $conn->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Courses - School Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Manage Courses - SchoolComSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">School Management</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="students.php">Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="parents.php">Parents</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="grades.php">Grades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="attendance.php">Attendance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="announcements.php">Announcements</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="messages.php">Messages</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../auth/logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include '../includes/admin_navbar.php'; ?>
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Manage Courses</h2>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourseModal">
-                Add New Course
+                <i class="bi bi-plus-circle me-2"></i>Add New Course
             </button>
         </div>
 
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -88,7 +48,9 @@ $courses = $conn->query($query);
                                 <td><?php echo htmlspecialchars($course['description']); ?></td>
                                 <td><?php echo date('M d, Y', strtotime($course['created_at'])); ?></td>
                                 <td>
-                                    <a href="view_course.php?id=<?php echo $course['id']; ?>" class="btn btn-sm btn-info">View</a>
+                                    <a href="view_course.php?id=<?php echo $course['id']; ?>" class="btn btn-sm btn-info">
+                                        <i class="bi bi-eye me-1"></i>View
+                                    </a>
                                 </td>
                             </tr>
                             <?php endwhile; ?>
@@ -120,13 +82,15 @@ $courses = $conn->query($query);
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Course</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i>Add Course
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

@@ -66,12 +66,27 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
             font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
         
+        .top-navbar {
+            margin-bottom: 0 !important;
+        }
+        
         .dashboard-header {
             background: linear-gradient(135deg, var(--primary-color), #224abe);
             color: white;
             padding: 2rem 0;
             margin-bottom: 2rem;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .card {

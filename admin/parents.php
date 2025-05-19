@@ -168,59 +168,54 @@ while ($student = $students->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Parents - School Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <title>Manage Parents - SchoolComSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .breadcrumb-item.active {
+            color: var(--secondary-color);
+        }
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1.25rem;
+            border-radius: 0.75rem 0.75rem 0 0 !important;
+        }
+        .card-header h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: var(--navbar-bg-end);
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">School Management</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="students.php">Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="parents.php">Parents</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="grades.php">Grades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="attendance.php">Attendance</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="announcements.php">Announcements</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="messages.php">Messages</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../auth/logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include '../includes/admin_navbar.php'; ?>
 
     <div class="container mt-4">
         <div class="row mb-4">
             <div class="col-md-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="dashboard.php"><i class="bi bi-house-door me-1"></i>Dashboard</a></li>
                         <li class="breadcrumb-item active">Manage Parents</li>
                     </ol>
                 </nav>
@@ -228,17 +223,21 @@ while ($student = $students->fetch_assoc()) {
         </div>
 
         <?php if (isset($success)): ?>
-            <div class="alert alert-success"><?php echo $success; ?></div>
+            <div class="alert alert-success">
+                <i class="bi bi-check-circle me-2"></i><?php echo $success; ?>
+            </div>
         <?php endif; ?>
         
         <?php if (isset($error)): ?>
-            <div class="alert alert-danger"><?php echo $error; ?></div>
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-circle me-2"></i><?php echo $error; ?>
+            </div>
         <?php endif; ?>
 
         <!-- Add New Parent Form -->
         <div class="card mb-4">
             <div class="card-header">
-                <h5 class="mb-0">Add New Parent</h5>
+                <h5><i class="bi bi-person-plus me-2"></i>Add New Parent</h5>
             </div>
             <div class="card-body">
                 <form method="POST" action="">
@@ -246,15 +245,21 @@ while ($student = $students->fetch_assoc()) {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
+                                <label for="username" class="form-label">
+                                    <i class="bi bi-person me-1"></i>Username
+                                </label>
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
+                                <label for="email" class="form-label">
+                                    <i class="bi bi-envelope me-1"></i>Email
+                                </label>
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label">
+                                    <i class="bi bi-key me-1"></i>Password
+                                </label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                         </div>
@@ -268,18 +273,26 @@ while ($student = $students->fetch_assoc()) {
                                 <input type="text" class="form-control" id="last_name" name="last_name" required>
                             </div>
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="tel" class="form-control" id="phone" name="phone">
+                                <label for="phone" class="form-label">
+                                    <i class="bi bi-telephone me-1"></i>Phone
+                                </label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="address" class="form-label">Address</label>
+                                <label for="address" class="form-label">
+                                    <i class="bi bi-geo-alt me-1"></i>Address
+                                </label>
                                 <textarea class="form-control" id="address" name="address" rows="2"></textarea>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Parent</button>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-person-plus me-2"></i>Add Parent
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -287,12 +300,12 @@ while ($student = $students->fetch_assoc()) {
         <!-- Parents List -->
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Parents List</h5>
+                <h5><i class="bi bi-people me-2"></i>Parents List</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover">
-                        <thead>
+                        <thead class="table-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Contact Info</th>
@@ -302,131 +315,80 @@ while ($student = $students->fetch_assoc()) {
                         </thead>
                         <tbody>
                             <?php while ($parent = $parents->fetch_assoc()): ?>
-                                <tr>
-                                    <td>
-                                        <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>
-                                        <br>
-                                        <small class="text-muted">Username: <?php echo htmlspecialchars($parent['username']); ?></small>
-                                    </td>
-                                    <td>
-                                        <?php echo htmlspecialchars($parent['email']); ?>
-                                        <?php if ($parent['phone']): ?>
-                                            <br>
-                                            <?php echo htmlspecialchars($parent['phone']); ?>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($parent['linked_students']): ?>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle text-primary me-2 fs-5"></i>
+                                        <div>
+                                            <div class="fw-bold"><?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?></div>
+                                            <small class="text-muted">@<?php echo htmlspecialchars($parent['username']); ?></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div><i class="bi bi-envelope me-1"></i><?php echo htmlspecialchars($parent['email']); ?></div>
+                                    <div><i class="bi bi-telephone me-1"></i><?php echo htmlspecialchars($parent['phone']); ?></div>
+                                </td>
+                                <td>
+                                    <?php if ($parent['linked_students']): ?>
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-mortarboard me-2"></i>
                                             <?php echo htmlspecialchars($parent['linked_students']); ?>
-                                        <?php else: ?>
-                                            <span class="text-muted">No students linked</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-sm" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#linkStudentModal<?php echo $parent['id']; ?>">
-                                            Link Student
+                                        </div>
+                                    <?php else: ?>
+                                        <span class="text-muted"><i class="bi bi-exclamation-circle me-1"></i>No students linked</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#linkStudentModal<?php echo $parent['id']; ?>">
+                                            <i class="bi bi-link me-1"></i>Link Student
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#deleteParentModal<?php echo $parent['id']; ?>">
-                                            <i class="bi bi-trash"></i> Delete
+                                        <button class="btn btn-sm btn-outline-danger" onclick="confirmDelete(<?php echo $parent['id']; ?>)">
+                                            <i class="bi bi-trash me-1"></i>Delete
                                         </button>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                            </tr>
 
-                                <!-- Delete Parent Modal -->
-                                <div class="modal fade" id="deleteParentModal<?php echo $parent['id']; ?>" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Delete Parent</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
+                            <!-- Link Student Modal -->
+                            <div class="modal fade" id="linkStudentModal<?php echo $parent['id']; ?>" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <i class="bi bi-link me-2"></i>Link Student to <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="action" value="link_student">
+                                            <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
                                             <div class="modal-body">
-                                                <p>Are you sure you want to delete <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>?</p>
-                                                <p class="text-danger">
-                                                    <i class="bi bi-exclamation-triangle"></i> 
-                                                    This action cannot be undone. This will:
-                                                </p>
-                                                <ul class="text-danger">
-                                                    <li>Delete the parent's user account</li>
-                                                    <li>Remove all student-parent relationships</li>
-                                                    <li>Delete all associated messages</li>
-                                                </ul>
+                                                <div class="mb-3">
+                                                    <label for="student_id" class="form-label">Select Student</label>
+                                                    <select class="form-select" id="student_id" name="student_id" required>
+                                                        <option value="">Choose a student...</option>
+                                                        <?php foreach ($students_array as $student): ?>
+                                                        <option value="<?php echo $student['id']; ?>">
+                                                            <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name'] . ' (Grade ' . $student['grade_level'] . ')'); ?>
+                                                        </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <form method="POST" action="" class="d-inline">
-                                                    <input type="hidden" name="action" value="delete_parent">
-                                                    <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
-                                                    <button type="submit" class="btn btn-danger">Delete Parent</button>
-                                                </form>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    <i class="bi bi-x-circle me-1"></i>Cancel
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-link me-1"></i>Link Student
+                                                </button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
-
-                                <!-- Link Student Modal -->
-                                <div class="modal fade" id="linkStudentModal<?php echo $parent['id']; ?>" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Link Student to <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form method="POST" action="">
-                                                    <input type="hidden" name="action" value="link_student">
-                                                    <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
-                                                    <div class="mb-3">
-                                                        <label for="student_id" class="form-label">Select Student</label>
-                                                        <select class="form-select" id="student_id" name="student_id" required>
-                                                            <option value="">Choose a student...</option>
-                                                            <?php foreach ($students_array as $student): ?>
-                                                                <option value="<?php echo $student['id']; ?>">
-                                                                    <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name'] . 
-                                                                        ' (Grade ' . $student['grade_level'] . ')'); ?>
-                                                                    <?php if ($student['current_parents']): ?>
-                                                                        - Current parents: <?php echo htmlspecialchars($student['current_parents']); ?>
-                                                                    <?php endif; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Link Student</button>
-                                                </form>
-
-                                                <?php if ($parent['linked_students']): ?>
-                                                    <hr>
-                                                    <h6>Currently Linked Students:</h6>
-                                                    <form method="POST" action="">
-                                                        <input type="hidden" name="action" value="unlink_student">
-                                                        <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
-                                                        <div class="list-group">
-                                                            <?php foreach ($students_array as $student): ?>
-                                                                <?php
-                                                                $check_link = "SELECT 1 FROM student_parent WHERE student_id = {$student['id']} AND parent_id = {$parent['id']}";
-                                                                if ($conn->query($check_link)->num_rows > 0):
-                                                                ?>
-                                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                                                        <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name'] . 
-                                                                            ' (Grade ' . $student['grade_level'] . ')'); ?>
-                                                                        <button type="submit" name="student_id" value="<?php echo $student['id']; ?>" 
-                                                                                class="btn btn-danger btn-sm">
-                                                                            Unlink
-                                                                        </button>
-                                                                    </div>
-                                                                <?php endif; ?>
-                                                            <?php endforeach; ?>
-                                                        </div>
-                                                    </form>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
                             <?php endwhile; ?>
                         </tbody>
                     </table>
@@ -435,6 +397,20 @@ while ($student = $students->fetch_assoc()) {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    function confirmDelete(parentId) {
+        if (confirm('Are you sure you want to delete this parent? This action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.innerHTML = `
+                <input type="hidden" name="action" value="delete_parent">
+                <input type="hidden" name="parent_id" value="${parentId}">
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    </script>
 </body>
 </html> 

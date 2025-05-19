@@ -104,7 +104,7 @@ $recent_attendance = $conn->query($query);
                                     <?php while ($student = $students->fetch_assoc()): ?>
                                         <option value="<?php echo $student['id']; ?>">
                                             <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?>
-                                            (Grade <?php echo htmlspecialchars($student['grade_level']); ?>)
+                                            (Year level: <?php echo htmlspecialchars($student['grade_level']); ?>)
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
