@@ -56,8 +56,176 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Course - School Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+            --stat-text: #10b981;
+            --header-text: #8b5cf6;
+            --primary-color: #8b5cf6;
+            --secondary-color: #a78bfa;
+            --navbar-bg-start: #e9d5ff;
+            --navbar-bg-end: #d8b4fe;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            color: #000000;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .table {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: var(--card-bg);
+            color: #000000;
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem;
+            font-weight: 500;
+        }
+
+        .table tbody td {
+            border-color: var(--card-border);
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: var(--hover-bg);
+        }
+
+        .table-striped > tbody > tr:nth-of-type(even) {
+            background-color: var(--card-bg);
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+        }
+
+        .breadcrumb-item a {
+            color: var(--accent-purple);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-secondary);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            border: none;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0ea271;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            border: none;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .alert-info {
+            background-color: var(--hover-bg);
+            border-color: var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: #000000;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .modal-title {
+            color: #000000;
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--card-border);
+        }
+
+        .form-label {
+            color: #000000 !important;
+            font-weight: 500;
+        }
+
+        .form-control {
+            background: var(--hover-bg);
+            border: 1px solid var(--card-border);
+            color: #000000;
+        }
+
+        .form-control:focus {
+            background: var(--hover-bg);
+            border-color: var(--accent-purple);
+            color: #000000;
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        }
+
+        .btn-close {
+            filter: none;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+            border-color: var(--card-border);
+            color: #000000;
+        }
+    </style>
 </head>
 <body>
     <?php include '../includes/admin_navbar.php'; ?>
@@ -111,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <tr>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Grade Level</th>
+                                            <th>Year Level</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
