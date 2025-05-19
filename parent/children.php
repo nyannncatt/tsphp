@@ -78,7 +78,7 @@ $children = $stmt->get_result();
                                             <div class="card-header">
                                                 <h5 class="mb-0">
                                                     <?php echo htmlspecialchars($child['first_name'] . ' ' . $child['last_name']); ?>
-                                                    <span class="badge bg-secondary">Grade <?php echo $child['grade_level']; ?></span>
+                                                    <span class="badge bg-secondary">Year level <?php echo $child['grade_level']; ?></span>
                                                 </h5>
                                             </div>
                                             <div class="card-body">

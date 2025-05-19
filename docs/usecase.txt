@@ -1,0 +1,49 @@
+All Users (Authentication)-
+
+Login to system
+Logout from system
+
+
+Teacher-
+
+View total Students
+View total Parents
+View total Courses
+Manage student grades
+Record and update attendance
+Manage course content
+View list of enrolled students
+View course schedules
+Update course information
+Manage user students grades
+Manage announcement
+Manage user accounts (create, update, delete)
+Manage student records
+Manage parents records
+Send messages to parent and student and view inbox
+
+Student-
+
+View dashboard
+View personal information
+View grades across courses
+View attendance records
+View enrolled courses
+View course details
+Send messages to teacher and parent and view inbox
+
+
+
+
+Parents-
+
+View announcement board
+View Average Grade of student
+View dashboard
+View personal information
+View grades across courses
+View attendance records
+View enrolled courses
+View course details
+Send messages to teacher and student and view inbox
+
