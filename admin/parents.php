@@ -172,38 +172,139 @@ while ($student = $students->fetch_assoc()) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+            --stat-text: #10b981;
+            --header-text: #8b5cf6;
+            --primary-color: #8b5cf6;
+            --secondary-color: #a78bfa;
+            --navbar-bg-start: #e9d5ff;
+            --navbar-bg-end: #d8b4fe;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
         .breadcrumb-item a {
-            color: var(--primary-color);
+            color: var(--accent-purple);
             text-decoration: none;
         }
+
         .breadcrumb-item.active {
-            color: var(--secondary-color);
+            color: var(--text-secondary);
         }
+
         .card {
-            border: none;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 0.75rem;
             box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
         }
+
         .card-header {
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
             padding: 1.25rem;
             border-radius: 0.75rem 0.75rem 0 0 !important;
         }
+
         .card-header h5 {
-            color: var(--primary-color);
+            color: var(--header-text);
             font-weight: 600;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
+
         .btn-primary {
-            background: var(--primary-color);
+            background: var(--accent-purple);
             border: none;
+            color: white;
         }
+
         .btn-primary:hover {
-            background: var(--navbar-bg-end);
+            background: var(--secondary-color);
+        }
+
+        .alert {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .alert-success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-danger {
+            border-left: 4px solid #ef4444;
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            background: var(--hover-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .form-control:focus {
+            background: var(--hover-bg);
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        }
+
+        .table {
+            color: var(--text-primary);
+        }
+
+        .table thead th {
+            background: var(--card-bg);
+            color: var(--header-text);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .table tbody td {
+            border-color: var(--card-border);
+        }
+
+        .table tbody tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--card-border);
+        }
+
+        .breadcrumb {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--card-border);
         }
     </style>
 </head>
@@ -315,8 +416,8 @@ while ($student = $students->fetch_assoc()) {
                         </thead>
                         <tbody>
                             <?php while ($parent = $parents->fetch_assoc()): ?>
-                            <tr>
-                                <td>
+                                <tr>
+                                    <td>
                                     <div class="d-flex align-items-center">
                                         <i class="bi bi-person-circle text-primary me-2 fs-5"></i>
                                         <div>
@@ -324,22 +425,22 @@ while ($student = $students->fetch_assoc()) {
                                             <small class="text-muted">@<?php echo htmlspecialchars($parent['username']); ?></small>
                                         </div>
                                     </div>
-                                </td>
-                                <td>
+                                    </td>
+                                    <td>
                                     <div><i class="bi bi-envelope me-1"></i><?php echo htmlspecialchars($parent['email']); ?></div>
                                     <div><i class="bi bi-telephone me-1"></i><?php echo htmlspecialchars($parent['phone']); ?></div>
-                                </td>
-                                <td>
-                                    <?php if ($parent['linked_students']): ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($parent['linked_students']): ?>
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-mortarboard me-2"></i>
                                             <?php echo htmlspecialchars($parent['linked_students']); ?>
                                         </div>
-                                    <?php else: ?>
+                                        <?php else: ?>
                                         <span class="text-muted"><i class="bi bi-exclamation-circle me-1"></i>No students linked</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
                                     <div class="btn-group">
                                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#linkStudentModal<?php echo $parent['id']; ?>">
                                             <i class="bi bi-link me-1"></i>Link Student
@@ -348,34 +449,34 @@ while ($student = $students->fetch_assoc()) {
                                             <i class="bi bi-trash me-1"></i>Delete
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
-                            <!-- Link Student Modal -->
-                            <div class="modal fade" id="linkStudentModal<?php echo $parent['id']; ?>" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
+                                <!-- Link Student Modal -->
+                                <div class="modal fade" id="linkStudentModal<?php echo $parent['id']; ?>" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
                                             <h5 class="modal-title">
                                                 <i class="bi bi-link me-2"></i>Link Student to <?php echo htmlspecialchars($parent['first_name'] . ' ' . $parent['last_name']); ?>
                                             </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="action" value="link_student">
-                                            <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                                <form method="POST" action="">
+                                                    <input type="hidden" name="action" value="link_student">
+                                                    <input type="hidden" name="parent_id" value="<?php echo $parent['id']; ?>">
                                             <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="student_id" class="form-label">Select Student</label>
-                                                    <select class="form-select" id="student_id" name="student_id" required>
-                                                        <option value="">Choose a student...</option>
-                                                        <?php foreach ($students_array as $student): ?>
-                                                        <option value="<?php echo $student['id']; ?>">
+                                                    <div class="mb-3">
+                                                        <label for="student_id" class="form-label">Select Student</label>
+                                                        <select class="form-select" id="student_id" name="student_id" required>
+                                                            <option value="">Choose a student...</option>
+                                                            <?php foreach ($students_array as $student): ?>
+                                                                <option value="<?php echo $student['id']; ?>">
                                                             <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name'] . ' (Grade ' . $student['grade_level'] . ')'); ?>
-                                                        </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -383,12 +484,12 @@ while ($student = $students->fetch_assoc()) {
                                                 </button>
                                                 <button type="submit" class="btn btn-primary">
                                                     <i class="bi bi-link me-1"></i>Link Student
-                                                </button>
+                                                                        </button>
                                             </div>
                                         </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php endwhile; ?>
                         </tbody>
                     </table>

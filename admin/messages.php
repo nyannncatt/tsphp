@@ -44,9 +44,204 @@ $recipients = $conn->query($query);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages - School Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        .message-unread { font-weight: bold; }
-        .tab-content { min-height: 300px; }
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+            --stat-text: #10b981;
+            --header-text: #8b5cf6;
+            --primary-color: #8b5cf6;
+            --secondary-color: #a78bfa;
+            --navbar-bg-start: #e9d5ff;
+            --navbar-bg-end: #d8b4fe;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+
+        h2 {
+            color: var(--header-text);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 0.75rem;
+            box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem;
+        }
+
+        .nav-tabs {
+            border-bottom: none;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--accent-purple);
+            background: var(--hover-bg);
+            border: none;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--text-primary);
+            background: var(--accent-purple);
+            border: none;
+        }
+
+        .table {
+            color: var(--text-primary);
+        }
+
+        .table > :not(caption) > * > * {
+            background-color: var(--card-bg);
+            border-bottom-color: var(--card-border);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--hover-bg) !important;
+            color: var(--text-primary);
+        }
+
+        .message-unread {
+            font-weight: bold;
+            color: var(--accent-purple);
+        }
+
+        .btn-primary {
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        .btn-info {
+            background: var(--accent-purple);
+            border: none;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--card-border);
+            border: none;
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .alert {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+        }
+
+        .alert-success {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-danger {
+            border-left: 4px solid #ef4444;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        .modal-footer {
+            border-top: 1px solid var(--card-border);
+        }
+
+        .modal-title {
+            color: var(--header-text);
+        }
+
+        .form-label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-control, .form-select {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            color: #000000;
+            border-radius: 0.5rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: #ffffff;
+            border-color: var(--accent-purple);
+            color: #000000;
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        }
+
+        optgroup {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        option {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .badge.bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .badge.bg-warning {
+            background-color: #f59e0b !important;
+        }
+
+        .table-responsive {
+            border-radius: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -54,21 +249,21 @@ $recipients = $conn->query($query);
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Messages</h2>
+            <h2><i class="bi bi-chat-dots-fill me-2"></i>Messages</h2>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#composeMessageModal">
-                <i class="bi bi-envelope-plus"></i> Compose Message
+                <i class="bi bi-envelope-plus me-2"></i>Compose Message
             </button>
         </div>
 
         <?php if (isset($_GET['success'])): ?>
             <div class="alert alert-success">
-                Message sent successfully.
+                <i class="bi bi-check-circle me-2"></i>Message sent successfully.
             </div>
         <?php endif; ?>
 
         <?php if (isset($_GET['error'])): ?>
             <div class="alert alert-danger">
-                <?php echo htmlspecialchars($_GET['error']); ?>
+                <i class="bi bi-exclamation-circle me-2"></i><?php echo htmlspecialchars($_GET['error']); ?>
             </div>
         <?php endif; ?>
 
@@ -76,10 +271,14 @@ $recipients = $conn->query($query);
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#inbox">Inbox</a>
+                        <a class="nav-link active" data-bs-toggle="tab" href="#inbox">
+                            <i class="bi bi-inbox me-2"></i>Inbox
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" href="#sent">Sent</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#sent">
+                            <i class="bi bi-send me-2"></i>Sent
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -90,11 +289,11 @@ $recipients = $conn->query($query);
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>From</th>
-                                        <th>Subject</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><i class="bi bi-person me-2"></i>From</th>
+                                        <th><i class="bi bi-envelope me-2"></i>Subject</th>
+                                        <th><i class="bi bi-calendar me-2"></i>Date</th>
+                                        <th><i class="bi bi-check-circle me-2"></i>Status</th>
+                                        <th><i class="bi bi-gear me-2"></i>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,16 +303,19 @@ $recipients = $conn->query($query);
                                         if ($message['receiver_id'] == $user_id):
                                     ?>
                                     <tr class="<?php echo !$message['is_read'] ? 'message-unread' : ''; ?>">
-                                        <td><?php echo htmlspecialchars($message['sender_username']); ?></td>
+                                        <td><i class="bi bi-person-circle me-2"></i><?php echo htmlspecialchars($message['sender_username']); ?></td>
                                         <td><?php echo htmlspecialchars($message['subject']); ?></td>
-                                        <td><?php echo date('M d, Y H:i', strtotime($message['created_at'])); ?></td>
+                                        <td><i class="bi bi-clock me-2"></i><?php echo date('M d, Y H:i', strtotime($message['created_at'])); ?></td>
                                         <td>
                                             <span class="badge bg-<?php echo $message['is_read'] ? 'success' : 'warning'; ?>">
+                                                <i class="bi bi-<?php echo $message['is_read'] ? 'check-circle' : 'exclamation-circle'; ?> me-1"></i>
                                                 <?php echo $message['is_read'] ? 'Read' : 'Unread'; ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="view_message.php?id=<?php echo $message['id']; ?>" class="btn btn-sm btn-info">View</a>
+                                            <a href="view_message.php?id=<?php echo $message['id']; ?>" class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye me-1"></i>View
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php 
@@ -129,11 +331,11 @@ $recipients = $conn->query($query);
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>To</th>
-                                        <th>Subject</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th><i class="bi bi-person me-2"></i>To</th>
+                                        <th><i class="bi bi-envelope me-2"></i>Subject</th>
+                                        <th><i class="bi bi-calendar me-2"></i>Date</th>
+                                        <th><i class="bi bi-check-circle me-2"></i>Status</th>
+                                        <th><i class="bi bi-gear me-2"></i>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -143,16 +345,19 @@ $recipients = $conn->query($query);
                                         if ($message['sender_id'] == $user_id):
                                     ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($message['receiver_username']); ?></td>
+                                        <td><i class="bi bi-person-circle me-2"></i><?php echo htmlspecialchars($message['receiver_username']); ?></td>
                                         <td><?php echo htmlspecialchars($message['subject']); ?></td>
-                                        <td><?php echo date('M d, Y H:i', strtotime($message['created_at'])); ?></td>
+                                        <td><i class="bi bi-clock me-2"></i><?php echo date('M d, Y H:i', strtotime($message['created_at'])); ?></td>
                                         <td>
                                             <span class="badge bg-<?php echo $message['is_read'] ? 'success' : 'warning'; ?>">
+                                                <i class="bi bi-<?php echo $message['is_read'] ? 'check-circle' : 'exclamation-circle'; ?> me-1"></i>
                                                 <?php echo $message['is_read'] ? 'Read' : 'Unread'; ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="view_message.php?id=<?php echo $message['id']; ?>" class="btn btn-sm btn-info">View</a>
+                                            <a href="view_message.php?id=<?php echo $message['id']; ?>" class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye me-1"></i>View
+                                            </a>
                                         </td>
                                     </tr>
                                     <?php 
@@ -173,13 +378,13 @@ $recipients = $conn->query($query);
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Compose Message</h5>
+                    <h5 class="modal-title"><i class="bi bi-envelope-plus me-2"></i>Compose Message</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form action="send_message.php" method="POST">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="recipient" class="form-label">To *</label>
+                            <label for="recipient" class="form-label"><i class="bi bi-person me-2"></i>To *</label>
                             <select class="form-select" id="recipient" name="recipient_id" required>
                                 <option value="">Select recipient...</option>
                                 <optgroup label="Students">
@@ -213,17 +418,21 @@ $recipients = $conn->query($query);
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="subject" class="form-label">Subject *</label>
+                            <label for="subject" class="form-label"><i class="bi bi-tag me-2"></i>Subject *</label>
                             <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
                         <div class="mb-3">
-                            <label for="message" class="form-label">Message *</label>
+                            <label for="message" class="form-label"><i class="bi bi-chat-text me-2"></i>Message *</label>
                             <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-2"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send me-2"></i>Send Message
+                        </button>
                     </div>
                 </form>
             </div>

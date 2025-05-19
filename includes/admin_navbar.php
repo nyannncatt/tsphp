@@ -3,8 +3,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <style>
     :root {
-        --navbar-bg-start: #1e3c72;
-        --navbar-bg-end: #2a5298;
+        --navbar-bg-start: #e9d5ff;
+        --navbar-bg-end: #d8b4fe;
         --card-bg: #ffffff;
         --text-color: #2d3748;
         --active-color: #4299e1;
@@ -23,7 +23,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-brand {
-        color: white;
+        color: #4c1d95;
         font-size: 1.5rem;
         text-decoration: none;
         font-weight: 600;
@@ -39,7 +39,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link {
-        color: rgba(255, 255, 255, 0.9);
+        color: #6b21a8;
         text-decoration: none;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
@@ -50,13 +50,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link:hover {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+        background: rgba(147, 51, 234, 0.1);
+        color: #4c1d95;
     }
 
     .nav-link.active {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
+        background: rgba(147, 51, 234, 0.2);
+        color: #4c1d95;
     }
 
     .nav-right {
@@ -64,9 +64,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout {
-        color: rgba(255, 255, 255, 0.9);
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #6b21a8;
+        background: rgba(147, 51, 234, 0.1);
+        border: 1px solid rgba(147, 51, 234, 0.2);
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         display: flex;
@@ -77,8 +77,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout:hover {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
+        background: rgba(147, 51, 234, 0.2);
+        color: #4c1d95;
     }
 
     .side-navbar {
@@ -169,43 +169,43 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <i class="bi bi-grid-1x2-fill"></i>
                     Dashboard
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="students.php" class="nav-link <?php echo $current_page == 'students.php' ? 'active' : ''; ?>">
                     <i class="bi bi-mortarboard-fill"></i>
                     Students
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="parents.php" class="nav-link <?php echo $current_page == 'parents.php' ? 'active' : ''; ?>">
                     <i class="bi bi-people-fill"></i>
                     Parents
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="courses.php" class="nav-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>">
                     <i class="bi bi-book-fill"></i>
                     Courses
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="grades.php" class="nav-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>">
                     <i class="bi bi-graph-up"></i>
                     Grades
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="attendance.php" class="nav-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>">
                     <i class="bi bi-calendar-check-fill"></i>
                     Attendance
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="announcements.php" class="nav-link <?php echo $current_page == 'announcements.php' ? 'active' : ''; ?>">
                     <i class="bi bi-megaphone-fill"></i>
                     Announcements
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="messages.php" class="nav-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>">
                     <i class="bi bi-chat-dots-fill"></i>
@@ -214,15 +214,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span class="message-badge"><?php echo $unread_count; ?></span>
                     <?php endif; ?>
                 </a>
-            </li>
+                </li>
             <li class="nav-right">
                 <a href="../auth/logout.php" class="btn-logout">
                     <i class="bi bi-box-arrow-right"></i>
                     Logout
                 </a>
-            </li>
-        </ul>
-    </div>
+                </li>
+            </ul>
+        </div>
 </nav>
 
 <!-- Mobile Navigation -->

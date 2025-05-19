@@ -182,25 +182,25 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <i class="bi bi-grid-1x2-fill"></i>
                     Dashboard
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="grades.php" class="nav-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>">
                     <i class="bi bi-graph-up"></i>
                     My Grades
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="attendance.php" class="nav-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>">
                     <i class="bi bi-calendar-check-fill"></i>
                     My Attendance
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="courses.php" class="nav-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>">
                     <i class="bi bi-book-fill"></i>
                     My Courses
                 </a>
-            </li>
+                </li>
             <li>
                 <a href="messages.php" class="nav-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>">
                     <i class="bi bi-chat-dots-fill"></i>
@@ -209,15 +209,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <span class="message-badge"><?php echo $unread_count; ?></span>
                     <?php endif; ?>
                 </a>
-            </li>
+                </li>
             <li class="nav-right">
                 <a href="../auth/logout.php" class="btn-logout">
                     <i class="bi bi-box-arrow-right"></i>
                     Logout
                 </a>
-            </li>
-        </ul>
-    </div>
+                </li>
+            </ul>
+        </div>
 </nav>
 
 <!-- Mobile Navigation -->
