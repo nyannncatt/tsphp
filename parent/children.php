@@ -41,8 +41,118 @@ $children = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Student - School Management System</title>
+    <title>My Student - SchoolComSphere System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1b2e;
+            color: #ffffff;
+        }
+        .breadcrumb-item a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            color: #7c3aed;
+        }
+        .breadcrumb-item.active {
+            color: #ffffff;
+        }
+        .card {
+            background-color: #242639;
+            border: 1px solid #2f3245;
+        }
+        .card-header {
+            background-color: #2f3245;
+            border-bottom: 1px solid #2f3245;
+            color: #ffffff;
+        }
+        .text-muted {
+            color: #a0aec0 !important;
+        }
+        .alert-info {
+            background-color: #2f3245;
+            border-color: #3f4259;
+            color: #ffffff;
+        }
+
+        .student-stats {
+            background-color: #242639;
+            border: 1px solid #2f3245;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .student-stats strong {
+            color: #ffffff;
+            font-size: 1.2rem;
+        }
+
+        .student-email {
+            background-color: #242639;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #2f3245;
+            color: #ffffff;
+        }
+        
+        .student-email div {
+            color: #ffffff;
+        }
+
+        .attendance-box {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #2f3245;
+            background-color: #242639;
+        }
+
+        .attendance-box.present {
+            background-color: #242639;
+            border-color: #2f3245;
+        }
+
+        .attendance-box.late {
+            background-color: #242639;
+            border-color: #2f3245;
+        }
+
+        .attendance-box.absent {
+            background-color: #242639;
+            border-color: #2f3245;
+        }
+
+        .attendance-box strong {
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 0.5rem;
+            color: #ffffff;
+        }
+
+        .badge {
+            padding: 0.5rem 0.8rem;
+            font-weight: 500;
+        }
+
+        .text-purple {
+            color: #8b5cf6 !important;
+        }
+
+        .btn-primary {
+            background-color: #8b5cf6;
+            border-color: #8b5cf6;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+            border-color: #7c3aed;
+        }
+    </style>
 </head>
 <body>
     <?php include '../includes/parent_navbar.php'; ?>
@@ -63,11 +173,15 @@ $children = $stmt->get_result();
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="mb-0">My Student</h4>
+                        <h4 class="mb-0">
+                            <i class="bi bi-mortarboard-fill me-2 text-purple"></i>
+                            My Student
+                        </h4>
                     </div>
                     <div class="card-body">
                         <?php if ($children->num_rows == 0): ?>
                             <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
                                 No children records found.
                             </div>
                         <?php else: ?>
@@ -76,24 +190,31 @@ $children = $stmt->get_result();
                                     <div class="col">
                                         <div class="card h-100">
                                             <div class="card-header">
-                                                <h5 class="mb-0">
+                                                <h5 class="mb-0 d-flex align-items-center">
+                                                    <i class="bi bi-person-badge me-2 text-purple"></i>
                                                     <?php echo htmlspecialchars($child['first_name'] . ' ' . $child['last_name']); ?>
-                                                    <span class="badge bg-secondary">Year level <?php echo $child['grade_level']; ?></span>
+                                                    <span class="badge ms-2" style="background-color: var(--accent-purple);">Year level: <?php echo $child['grade_level']; ?></span>
                                                 </h5>
                                             </div>
                                             <div class="card-body">
                                                 <!-- Basic Info -->
-                                                <div class="mb-3">
-                                                    <small class="text-muted">Student Email:</small>
-                                                    <div><?php echo htmlspecialchars($child['email']); ?></div>
+                                                <div class="mb-3 student-email">
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-envelope me-1"></i>
+                                                        Student Email:
+                                                    </small>
+                                                    <div class="mt-1"><?php echo htmlspecialchars($child['email']); ?></div>
                                                 </div>
 
                                                 <!-- Academic Summary -->
                                                 <div class="mb-3">
-                                                    <h6>Academic Overview</h6>
+                                                    <h6 class="d-flex align-items-center">
+                                                        <i class="bi bi-book me-2 text-purple"></i>
+                                                        Academic Overview
+                                                    </h6>
                                                     <div class="row g-2">
                                                         <div class="col-6">
-                                                            <div class="border rounded p-2">
+                                                            <div class="student-stats">
                                                                 <small class="text-muted d-block">Average Grade</small>
                                                                 <span class="badge bg-<?php 
                                                     echo $child['average_grade'] >= 90 ? 'success' : 
@@ -105,7 +226,7 @@ $children = $stmt->get_result();
                                                             </div>
                                                         </div>
                                                         <div class="col-6">
-                                                            <div class="border rounded p-2">
+                                                            <div class="student-stats">
                                                                 <small class="text-muted d-block">Enrolled Courses</small>
                                                                 <strong><?php echo $child['course_count']; ?></strong>
                                                             </div>
@@ -115,23 +236,26 @@ $children = $stmt->get_result();
 
                                                 <!-- Attendance Summary -->
                                                 <div class="mb-3">
-                                                    <h6>Attendance Summary</h6>
+                                                    <h6 class="d-flex align-items-center">
+                                                        <i class="bi bi-calendar-check me-2 text-purple"></i>
+                                                        Attendance Summary
+                                                    </h6>
                                                     <div class="row g-2">
                                                         <div class="col-4">
-                                                            <div class="border rounded p-2 text-center bg-success bg-opacity-10">
-                                                                <small class="text-muted d-block">Present</small>
+                                                            <div class="attendance-box present">
+                                                                <small class="text-muted">Present</small>
                                                                 <strong><?php echo $child['present_days']; ?></strong>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
-                                                            <div class="border rounded p-2 text-center bg-warning bg-opacity-10">
-                                                                <small class="text-muted d-block">Late</small>
+                                                            <div class="attendance-box late">
+                                                                <small class="text-muted">Late</small>
                                                                 <strong><?php echo $child['late_days']; ?></strong>
                                                             </div>
                                                         </div>
                                                         <div class="col-4">
-                                                            <div class="border rounded p-2 text-center bg-danger bg-opacity-10">
-                                                                <small class="text-muted d-block">Absent</small>
+                                                            <div class="attendance-box absent">
+                                                                <small class="text-muted">Absent</small>
                                                                 <strong><?php echo $child['absent_days']; ?></strong>
                                                             </div>
                                                         </div>
@@ -142,6 +266,7 @@ $children = $stmt->get_result();
                                                 <div class="d-grid gap-2">
                                                     <a href="student_details.php?id=<?php echo $child['id']; ?>" 
                                                        class="btn btn-primary">
+                                                        <i class="bi bi-eye me-2"></i>
                                                         View Full Details
                                                     </a>
                                                 </div>

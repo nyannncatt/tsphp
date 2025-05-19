@@ -39,107 +39,245 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        :root {
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+        }
+
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0,0,0,.08);
-        }
+
         .dashboard-header {
-            background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);
-            color: white;
+            background: #242639;
+            color: var(--text-primary);
             padding: 2rem 0;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,.2);
+            border: 1px solid var(--card-border);
+            position: relative;
         }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-purple);
+        }
+
+        .dashboard-header h2 {
+            color: var(--text-primary);
+        }
+
+        .dashboard-header i {
+            color: var(--accent-purple);
+        }
+
         .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,.04);
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: #242639;
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out;
             margin-bottom: 1.5rem;
         }
+
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,.08);
         }
+
         .card-header {
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,.05);
+            background: #242639;
+            border-bottom: 1px solid var(--card-border);
             padding: 1.25rem;
-            border-radius: 10px 10px 0 0 !important;
+            border-radius: 1rem 1rem 0 0 !important;
+            color: var(--text-primary);
         }
+
         .card-body {
+            background: #242639;
             padding: 1.5rem;
+            color: var(--text-primary);
         }
-        .stat-card {
-            border-radius: 8px;
-            padding: 1rem;
-            height: 100%;
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .stat-card h3 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-        .stat-card .card-title {
-            font-size: 1rem;
-            margin-bottom: 0;
-        }
-        .table {
-            margin-bottom: 0;
-        }
-        .table th {
-            border-top: none;
-            font-weight: 600;
-            color: #495057;
-        }
-        .badge {
-            padding: 0.5rem 0.8rem;
-            font-weight: 500;
-        }
-        .grade-badge {
-            font-size: 0.9rem;
-            min-width: 60px;
-        }
-        .announcement-card {
-            background: #fff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #0d6efd;
-        }
-        .btn {
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-        }
-        .student-name {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .student-name .badge {
-            font-size: 0.85rem;
-        }
-        .table-responsive {
-            border-radius: 8px;
-            background: white;
-        }
+
         .section-title {
-            color: #344767;
+            color: var(--text-primary);
             font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--accent-purple);
+        }
+
+        /* Table styles */
+        .table {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table > :not(caption) > * > * {
+            background-color: #242639;
+            border-bottom-color: var(--card-border);
+            color: var(--text-primary);
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: var(--accent-purple);
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        /* Student name section */
+        .student-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .student-name i {
+            color: var(--accent-purple);
+        }
+
+        .student-name h4 {
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Stat cards */
+        .stat-card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: 100%;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .stat-card .card-title {
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* Announcement cards */
+                    .announcement-card {
+            background: var(--card-bg);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-purple);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-2px);
+            background: var(--hover-bg);
+        }
+
+        .announcement-card h6 {
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .announcement-card p {
+            color: var(--text-primary) !important;
+            margin-bottom: 0;
+        }
+        
+        .announcement-card .announcement-content {
+            color: #000000 !important;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .announcement-card .text-muted {
+            color: var(--accent-purple) !important;
+            opacity: 0.8;
+        }
+
+        .announcement-card .bi {
+            color: var(--accent-purple);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.5rem 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge.bg-secondary {
+            background-color: var(--hover-bg) !important;
+            color: var(--text-primary);
+        }
+
+        .grade-badge {
+            font-size: 0.9rem;
+            min-width: 60px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--accent-purple);
+            border-color: var(--accent-purple);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+            border-color: #7c3aed;
+        }
+
+        /* Keep original colors for status cards */
+        .card.bg-success, .card.bg-danger, .card.bg-warning, .card.bg-info {
+            border: none;
+        }
+
+        .table-responsive {
+            border-radius: 1rem;
+            background: #242639;
+            border: 1px solid var(--card-border);
         }
     </style>
 </head>
@@ -215,7 +353,7 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
                                 <i class="bi bi-mortarboard-fill text-primary"></i>
                                 <h4 class="mb-0">
                                     <?php echo htmlspecialchars($child['first_name'] . ' ' . $child['last_name']); ?>
-                                    <span class="badge bg-secondary ms-2">Year level: <?php echo $child['grade_level']; ?></span>
+                                    <span class="badge ms-2" style="background-color: var(--accent-purple);">Year level: <?php echo $child['grade_level']; ?></span>
                                 </h4>
                             </div>
                         </div>
@@ -326,12 +464,12 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
                     <div class="card-body">
                         <?php while ($announcement = $announcements->fetch_assoc()): ?>
                             <div class="announcement-card">
-                                <h6 class="text-primary"><?php echo htmlspecialchars($announcement['title']); ?></h6>
+                                <h6><?php echo htmlspecialchars($announcement['title']); ?></h6>
                                 <p class="small text-muted mb-2">
                                     <i class="bi bi-calendar3 me-1"></i>
                                     <?php echo date('M d, Y', strtotime($announcement['created_at'])); ?>
                                 </p>
-                                <p class="mb-0">
+                                <p class="mb-0 announcement-content">
                                     <?php 
                                         $content = htmlspecialchars($announcement['content']);
                                         echo strlen($content) > 100 ? substr($content, 0, 100) . '...' : $content;

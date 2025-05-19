@@ -45,6 +45,53 @@ $gpa = $grade_count > 0 ? round($total_grade / $grade_count, 2) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Grades - School Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1b2e;
+            color: #ffffff;
+        }
+        .breadcrumb-item a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+        .breadcrumb-item a:hover {
+            color: #7c3aed;
+        }
+        .breadcrumb-item.active {
+            color: #ffffff;
+        }
+        .card {
+            background-color: #242639;
+            border: 1px solid #2f3245;
+        }
+        .card-header {
+            background-color: #2f3245;
+            border-bottom: 1px solid #2f3245;
+            color: #ffffff;
+        }
+        .table {
+            color: #ffffff;
+        }
+        .table > :not(caption) > * > * {
+            background-color: #242639;
+            border-bottom-color: #2f3245;
+        }
+        .table tbody tr:hover {
+            background-color: #2f3245 !important;
+        }
+        .text-muted {
+            color: #a0aec0 !important;
+        }
+        .alert-info {
+            background-color: #2f3245;
+            border-color: #3f4259;
+            color: #ffffff;
+        }
+        .table thead th {
+            border-bottom: 2px solid #2f3245;
+            color: #8b5cf6;
+        }
+    </style>
 </head>
 <body>
     <?php include '../includes/student_navbar.php'; ?>

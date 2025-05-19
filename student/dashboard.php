@@ -53,17 +53,23 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4e73df;
-            --secondary-color: #858796;
-            --success-color: #1cc88a;
-            --info-color: #36b9cc;
-            --warning-color: #f6c23e;
-            --danger-color: #e74a3b;
+            --dark-bg: #1a1b2e;
+            --card-bg: #242639;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --success-color: #10b981;
+            --card-border: #2f3245;
+            --hover-bg: #2f3245;
+            --stat-text: #10b981;
+            --header-text: #8b5cf6;
         }
         
         body {
-            background-color: #f8f9fc;
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
         }
         
         .top-navbar {
@@ -71,11 +77,12 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
         }
         
         .dashboard-header {
-            background: linear-gradient(135deg, var(--primary-color), #224abe);
-            color: white;
+            background: #242639;
+            color: var(--text-primary);
             padding: 2rem 0;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid var(--card-border);
             position: relative;
         }
 
@@ -86,13 +93,14 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
             left: 0;
             right: 0;
             height: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--accent-purple);
         }
 
         .card {
-            border: none;
-            border-radius: 0.75rem;
-            box-shadow: 0 0.15rem 1.75rem rgba(0, 0, 0, 0.1);
+            background: #242639;
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s ease-in-out;
         }
 
@@ -101,14 +109,14 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
         }
 
         .card-header {
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background: #242639;
+            border-bottom: 1px solid var(--card-border);
             padding: 1.25rem;
-            border-radius: 0.75rem 0.75rem 0 0 !important;
+            border-radius: 1rem 1rem 0 0 !important;
         }
 
         .card-header h5 {
-            color: var(--primary-color);
+            color: #ffffff;
             font-weight: 600;
             margin: 0;
             display: flex;
@@ -116,21 +124,40 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
             gap: 0.5rem;
         }
 
+        .card-header h5 i {
+            color: var(--accent-purple);
+        }
+
+        .card-body {
+            background: #242639;
+            border-radius: 0 0 1rem 1rem;
+            color: #ffffff;
+        }
+
         .list-group-item {
+            background: #242639;
             border: none;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--card-border);
             padding: 1rem;
+            color: #ffffff;
         }
 
         .list-group-item:last-child {
             border-bottom: none;
         }
 
+        .list-group-item h6 {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
         .stat-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.75rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 1rem;
             margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .stat-icon {
@@ -141,6 +168,8 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
             justify-content: center;
             border-radius: 0.5rem;
             font-size: 1.5rem;
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
         }
 
         .badge {
@@ -151,24 +180,79 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
         .progress {
             height: 0.5rem;
             border-radius: 0.25rem;
+            background: var(--hover-bg);
+        }
+
+        .progress-bar {
+            background: var(--accent-purple);
         }
 
         .welcome-message {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .welcome-message i {
+            color: var(--accent-purple);
+            margin-left: 0.5rem;
         }
 
         .profile-info {
-            color: rgba(255,255,255,0.9);
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
 
+        .profile-info i {
+            color: var(--accent-purple);
+        }
+
         .quick-stats {
-            background: white;
-            border-radius: 0.75rem;
-            padding: 1rem;
+            background: #242639;
+            border: 1px solid var(--card-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
+        }
+
+        .quick-stats h6 {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .quick-stats h3 {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .fw-bold {
+            color: #ffffff;
+        }
+
+        .bg-primary {
+            background-color: var(--accent-purple) !important;
+        }
+
+        .text-primary {
+            color: var(--accent-purple) !important;
+        }
+
+        .bg-opacity-10 {
+            background-color: rgba(139, 92, 246, 0.1) !important;
+        }
+
+        label.text-muted {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+        }
+
+        .card-body .mb-1 {
+            color: #ffffff;
         }
     </style>
 </head>
@@ -179,7 +263,7 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1 class="welcome-message">Welcome back, <?php echo htmlspecialchars($student['first_name']); ?>! 👋</h1>
+                    <h1 class="welcome-message">Welcome back, <?php echo htmlspecialchars($student['first_name']); ?>! <i class="bi bi-building"></i></h1>
                     <p class="profile-info mb-0">
                         <i class="bi bi-mortarboard-fill me-2"></i>Year Level: <?php echo htmlspecialchars($student['grade_level']); ?> |
                         <i class="bi bi-envelope-fill me-2"></i><?php echo htmlspecialchars($student['email']); ?>

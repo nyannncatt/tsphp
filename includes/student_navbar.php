@@ -7,10 +7,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <style>
     :root {
-        --navbar-bg-start: #d8b4fe;
-        --navbar-bg-end: #c084fc;
+        --navbar-bg-start: #242639;
+        --navbar-bg-end: #2f3245;
         --card-bg: #ffffff;
         --text-color: #2d3748;
+        --text-primary: #ffffff;
         --active-color: #4299e1;
         --hover-bg: #f7fafc;
     }
@@ -28,7 +29,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-brand {
-        color: #4c1d95;
+        color: var(--text-primary);
         font-size: 1.5rem;
         text-decoration: none;
         font-weight: 600;
@@ -44,7 +45,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link {
-        color: #6b21a8;
+        color: var(--text-primary);
         text-decoration: none;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
@@ -55,13 +56,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-link:hover {
-        background: rgba(147, 51, 234, 0.1);
-        color: #4c1d95;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
     }
 
     .nav-link.active {
-        background: rgba(147, 51, 234, 0.2);
-        color: #4c1d95;
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--text-primary);
     }
 
     .nav-right {
@@ -69,9 +70,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout {
-        color: #6b21a8;
-        background: rgba(147, 51, 234, 0.1);
-        border: 1px solid rgba(147, 51, 234, 0.2);
+        color: var(--text-primary);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         display: flex;
@@ -82,8 +83,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
     }
 
     .btn-logout:hover {
-        background: rgba(147, 51, 234, 0.2);
-        color: #4c1d95;
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--text-primary);
     }
 
     .side-navbar {
@@ -130,9 +131,13 @@ $current_page = basename($_SERVER['PHP_SELF']);
         display: none;
         background: none;
         border: none;
-        color: white;
+        color: var(--text-primary);
         padding: 0.5rem;
         cursor: pointer;
+    }
+
+    .mobile-toggle i {
+        color: var(--text-primary);
     }
 
     .message-badge {
