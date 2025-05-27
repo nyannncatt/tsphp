@@ -269,6 +269,11 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
                         <i class="bi bi-envelope-fill me-2"></i><?php echo htmlspecialchars($student['email']); ?>
                     </p>
                 </div>
+                <div class="col-md-4 text-end">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportIncidentModal">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Report Incident
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -389,6 +394,123 @@ $course_count = $stmt->get_result()->fetch_assoc()['count'];
                             <?php endwhile; ?>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login History -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Login History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                // Get login history with session duration
+                                $login_query = "
+                                    WITH RankedEvents AS (
+                                        SELECT 
+                                            action,
+                                            created_at,
+                                            ROW_NUMBER() OVER (ORDER BY created_at DESC) as rn
+                                        FROM user_activity 
+                                        WHERE user_id = ? 
+                                        AND action = 'login'
+                                    )
+                                    SELECT 
+                                        r1.created_at as action_time,
+                                        r2.created_at as next_action_time,
+                                        TIMESTAMPDIFF(MINUTE, r1.created_at, r2.created_at) as duration
+                                    FROM RankedEvents r1
+                                    LEFT JOIN RankedEvents r2 ON r2.rn = r1.rn + 1
+                                    ORDER BY r1.created_at DESC
+                                    LIMIT 5";
+                                $stmt = $conn->prepare($login_query);
+                                $stmt->bind_param("i", $_SESSION['user_id']);
+                                $stmt->execute();
+                                $login_history = $stmt->get_result();
+                                
+                                while ($history = $login_history->fetch_assoc()): 
+                                    $duration = '';
+                                    if ($history['duration'] !== null) {
+                                        $hours = floor($history['duration'] / 60);
+                                        $minutes = $history['duration'] % 60;
+                                        if ($hours > 0) {
+                                            $duration = sprintf("%dh %dm", $hours, $minutes);
+                                        } else {
+                                            $duration = sprintf("%dm", $minutes);
+                                        }
+                                    }
+                                ?>
+                                <tr>
+                                    <td><?php echo date('M d, Y h:i A', strtotime($history['action_time'])); ?></td>
+                                    <td>
+                                        <?php echo $duration ? $duration : '<span class="text-muted">Active</span>'; ?>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                                <?php if ($login_history->num_rows === 0): ?>
+                                <tr>
+                                    <td colspan="2" class="text-center text-muted">No login history available</td>
+                                </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Incident Modal -->
+        <div class="modal fade" id="reportIncidentModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-black">Report Security Incident</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="../incidents/report_incident.php" method="POST">
+                        <div class="modal-body">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                            <div class="mb-3">
+                                <label for="type" class="form-label text-black">Incident Type</label>
+                                <select class="form-select text-black" id="type" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="unauthorized_access">Unauthorized Access Attempt</option>
+                                    <option value="suspicious_activity">Suspicious Activity</option>
+                                    <option value="account_compromise">Account Compromise</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="severity" class="form-label text-black">Severity</label>
+                                <select class="form-select text-black" id="severity" name="severity" required>
+                                    <option value="">Select Severity</option>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label text-black">Description</label>
+                                <textarea class="form-control text-black" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Submit Report</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,5 +1,17 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Get user's navigation restrictions
+$restriction_query = "SELECT restricted_pages FROM nav_restrictions WHERE user_id = ?";
+$restriction_stmt = $conn->prepare($restriction_query);
+$restriction_stmt->bind_param("i", $_SESSION['user_id']);
+$restriction_stmt->execute();
+$restriction_result = $restriction_stmt->get_result();
+$restricted_pages = [];
+if ($restriction_result->num_rows > 0) {
+    $restriction = $restriction_result->fetch_assoc();
+    $restricted_pages = explode(',', $restriction['restricted_pages']);
+}
 ?>
 <style>
     :root {
@@ -164,71 +176,71 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <i class="bi bi-list fs-4"></i>
         </button>
         
-        <a href="dashboard.php" class="nav-brand">
-            <i class="bi bi-building me-2"></i>
-            SchoolComSphere
+        <a href="dashboard.php" class="nav-brand d-flex align-items-center me-4">
+            <i class="bi bi-building me-2 fs-3"></i>
+            <span class="ms-1">SchoolComSphere</span>
         </a>
         
-        <ul class="nav-menu">
+        <ul class="nav-menu ms-4">
             <li>
-                <a href="dashboard.php" class="nav-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">
+                <a href="dashboard.php" class="nav-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>" onclick="return checkRestriction('dashboard')">
                     <i class="bi bi-grid-1x2-fill"></i>
                     Dashboard
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="students.php" class="nav-link <?php echo $current_page == 'students.php' ? 'active' : ''; ?>">
+                <a href="students.php" class="nav-link <?php echo $current_page == 'students.php' ? 'active' : ''; ?>" onclick="return checkRestriction('students')">
                     <i class="bi bi-mortarboard-fill"></i>
                     Students
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="parents.php" class="nav-link <?php echo $current_page == 'parents.php' ? 'active' : ''; ?>">
+                <a href="parents.php" class="nav-link <?php echo $current_page == 'parents.php' ? 'active' : ''; ?>" onclick="return checkRestriction('parents')">
                     <i class="bi bi-people-fill"></i>
                     Parents
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="courses.php" class="nav-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>">
+                <a href="courses.php" class="nav-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>" onclick="return checkRestriction('courses')">
                     <i class="bi bi-book-fill"></i>
                     Courses
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="grades.php" class="nav-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>">
+                <a href="grades.php" class="nav-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>" onclick="return checkRestriction('grades')">
                     <i class="bi bi-graph-up"></i>
                     Grades
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="attendance.php" class="nav-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>">
+                <a href="attendance.php" class="nav-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>" onclick="return checkRestriction('attendance')">
                     <i class="bi bi-calendar-check-fill"></i>
                     Attendance
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="announcements.php" class="nav-link <?php echo $current_page == 'announcements.php' ? 'active' : ''; ?>">
+                <a href="announcements.php" class="nav-link <?php echo $current_page == 'announcements.php' ? 'active' : ''; ?>" onclick="return checkRestriction('announcements')">
                     <i class="bi bi-megaphone-fill"></i>
                     Announcements
                 </a>
-                </li>
+            </li>
             <li>
-                <a href="messages.php" class="nav-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>">
+                <a href="messages.php" class="nav-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>" onclick="return checkRestriction('messages')">
                     <i class="bi bi-chat-dots-fill"></i>
                     Messages
                     <?php if (isset($unread_count) && $unread_count > 0): ?>
                     <span class="message-badge"><?php echo $unread_count; ?></span>
                     <?php endif; ?>
                 </a>
-                </li>
+            </li>
             <li class="nav-right">
                 <a href="../auth/logout.php" class="btn-logout">
                     <i class="bi bi-box-arrow-right"></i>
                     Logout
                 </a>
-                </li>
-            </ul>
-        </div>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <!-- Mobile Navigation -->
@@ -245,49 +257,49 @@ $current_page = basename($_SERVER['PHP_SELF']);
     
     <ul class="side-menu">
         <li>
-            <a href="dashboard.php" class="side-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>">
+            <a href="dashboard.php" class="side-link <?php echo $current_page == 'dashboard.php' ? 'active' : ''; ?>" onclick="return checkRestriction('dashboard')">
                 <i class="bi bi-grid-1x2-fill"></i>
                 Dashboard
             </a>
         </li>
         <li>
-            <a href="students.php" class="side-link <?php echo $current_page == 'students.php' ? 'active' : ''; ?>">
+            <a href="students.php" class="side-link <?php echo $current_page == 'students.php' ? 'active' : ''; ?>" onclick="return checkRestriction('students')">
                 <i class="bi bi-mortarboard-fill"></i>
                 Students
             </a>
         </li>
         <li>
-            <a href="parents.php" class="side-link <?php echo $current_page == 'parents.php' ? 'active' : ''; ?>">
+            <a href="parents.php" class="side-link <?php echo $current_page == 'parents.php' ? 'active' : ''; ?>" onclick="return checkRestriction('parents')">
                 <i class="bi bi-people-fill"></i>
                 Parents
             </a>
         </li>
         <li>
-            <a href="courses.php" class="side-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>">
+            <a href="courses.php" class="side-link <?php echo $current_page == 'courses.php' ? 'active' : ''; ?>" onclick="return checkRestriction('courses')">
                 <i class="bi bi-book-fill"></i>
                 Courses
             </a>
         </li>
         <li>
-            <a href="grades.php" class="side-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>">
+            <a href="grades.php" class="side-link <?php echo $current_page == 'grades.php' ? 'active' : ''; ?>" onclick="return checkRestriction('grades')">
                 <i class="bi bi-graph-up"></i>
                 Grades
             </a>
         </li>
         <li>
-            <a href="attendance.php" class="side-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>">
+            <a href="attendance.php" class="side-link <?php echo $current_page == 'attendance.php' ? 'active' : ''; ?>" onclick="return checkRestriction('attendance')">
                 <i class="bi bi-calendar-check-fill"></i>
                 Attendance
             </a>
         </li>
         <li>
-            <a href="announcements.php" class="side-link <?php echo $current_page == 'announcements.php' ? 'active' : ''; ?>">
+            <a href="announcements.php" class="side-link <?php echo $current_page == 'announcements.php' ? 'active' : ''; ?>" onclick="return checkRestriction('announcements')">
                 <i class="bi bi-megaphone-fill"></i>
                 Announcements
             </a>
         </li>
         <li>
-            <a href="messages.php" class="side-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>">
+            <a href="messages.php" class="side-link <?php echo $current_page == 'messages.php' ? 'active' : ''; ?>" onclick="return checkRestriction('messages')">
                 <i class="bi bi-chat-dots-fill"></i>
                 Messages
                 <?php if (isset($unread_count) && $unread_count > 0): ?>
@@ -304,6 +316,31 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </ul>
 </div>
 
+<!-- Restriction Warning Modal -->
+<div class="modal fade" id="restrictionWarningModal" tabindex="-1" aria-labelledby="restrictionWarningModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-black" id="restrictionWarningModalLabel">Access Restricted</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <i class="bi bi-shield-lock text-danger" style="font-size: 3rem;"></i>
+                </div>
+                <p class="text-black">You do not have permission to access this page. This restriction has been set by an administrator.</p>
+                <p class="text-black">If you believe this is an error, please contact your administrator.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const mobileToggles = document.querySelectorAll('.mobile-toggle');
@@ -315,4 +352,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Store restricted pages in JavaScript
+const restrictedPages = <?php echo json_encode($restricted_pages); ?>;
+
+function checkRestriction(page) {
+    if (restrictedPages.includes(page)) {
+        // Show warning modal
+        const warningModal = new bootstrap.Modal(document.getElementById('restrictionWarningModal'));
+        warningModal.show();
+        return false; // Prevent navigation
+    }
+    return true; // Allow navigation
+}
 </script> 

@@ -214,16 +214,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .btn-secondary {
-            background: #ffffff;
+            background: #ffffff !important;
             border: 1px solid var(--card-border);
-            color: #000000;
-            font-weight: 500;
+            color: #000000 !important;
         }
 
         .btn-secondary:hover {
-            background: #f0f0f0;
+            background: #f0f0f0 !important;
             border-color: var(--card-border);
-            color: #000000;
+            color: #000000 !important;
         }
     </style>
 </head>

@@ -40,13 +40,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result->num_rows == 1) {
                 $user = $result->fetch_assoc();
-                if (password_verify($password, $user['password'])) {
+                
+                // Check if user is currently blocked
+                $block_check = "SELECT * FROM user_blocks 
+                              WHERE user_id = ? 
+                              AND block_until > CURRENT_TIMESTAMP 
+                              ORDER BY block_until DESC 
+                              LIMIT 1";
+                $block_stmt = $conn->prepare($block_check);
+                $block_stmt->bind_param("i", $user['id']);
+                $block_stmt->execute();
+                $block_result = $block_stmt->get_result();
+                
+                if ($block_result->num_rows > 0) {
+                    $block = $block_result->fetch_assoc();
+                    $errors[] = "Your account is blocked until " . date('M d, Y h:i A', strtotime($block['block_until']));
+                    logError("Blocked login attempt: User {$user['username']} ({$user['role']})");
+                    
+                    // Log blocked attempt
+                    $log_query = "INSERT INTO login_history (user_id, login_time, ip_address, user_agent, status) 
+                                VALUES (?, CURRENT_TIMESTAMP, ?, ?, 'blocked')";
+                    $log_stmt = $conn->prepare($log_query);
+                    $log_stmt->bind_param("iss", $user['id'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+                    $log_stmt->execute();
+                } else if (password_verify($password, $user['password'])) {
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['role'] = $user['role'];
                     
                     // Log successful login
                     logError("Successful login: User {$user['username']} ({$user['role']})");
+                    
+                    // Log successful attempt
+                    $log_query = "INSERT INTO login_history (user_id, login_time, ip_address, user_agent, status) 
+                                VALUES (?, CURRENT_TIMESTAMP, ?, ?, 'success')";
+                    $log_stmt = $conn->prepare($log_query);
+                    $log_stmt->bind_param("iss", $user['id'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+                    $log_stmt->execute();
                     
                     // Redirect based on role
                     switch($user['role']) {
@@ -64,6 +94,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } else {
                     $errors[] = "Invalid password";
                     logError("Failed login attempt: Invalid password for user $username");
+                    
+                    // Log failed attempt
+                    $log_query = "INSERT INTO login_history (user_id, login_time, ip_address, user_agent, status) 
+                                VALUES (?, CURRENT_TIMESTAMP, ?, ?, 'failed')";
+                    $log_stmt = $conn->prepare($log_query);
+                    $log_stmt->bind_param("iss", $user['id'], $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+                    $log_stmt->execute();
                 }
             } else {
                 $errors[] = "Username not found";
@@ -82,9 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - School Management System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <title>Login - SchoolComSphere</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
             --dark-bg: #1a1b2e;
@@ -92,226 +129,91 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --accent-purple: #8b5cf6;
             --text-primary: #ffffff;
             --text-secondary: #9ca3af;
-            --success-color: #10b981;
-            --card-border: #2f3245;
-            --hover-bg: #2f3245;
-            --header-text: #8b5cf6;
         }
 
         body {
             background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-primary);
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--text-primary);
-        }
-
-        .login-header .icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-purple);
-            line-height: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .login-header .icon i {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-form {
+        .login-card {
             background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 15px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
             width: 100%;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .input-label {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            opacity: 1;
-            pointer-events: none;
-        }
-
-        .input-group:focus-within .input-label,
-        .input-group input:not(:placeholder-shown) + .input-label {
-            opacity: 0;
-            transform: translateY(-100%);
+            max-width: 400px;
         }
 
         .form-control {
-            background: var(--hover-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
+            background: var(--dark-bg);
+            border: 1px solid #2f3245;
             color: var(--text-primary);
-            padding: 12px 20px;
-            height: 50px;
-            width: 100%;
-            font-size: 1rem;
-            transition: all 0.3s ease;
         }
 
         .form-control:focus {
-            background: var(--hover-bg);
+            background: var(--dark-bg);
             border-color: var(--accent-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
             color: var(--text-primary);
-            outline: none;
         }
 
-        .btn-login {
+        .btn-primary {
             background: var(--accent-purple);
             border: none;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 500;
-            width: 100%;
-            margin-top: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
         }
 
-        .btn-login:hover {
-            background: #7c4ef3;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(139, 92, 246, 0.3);
+        .btn-primary:hover {
+            background: #7c4cf6;
         }
 
-        .register-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        .register-link a {
-            color: var(--accent-purple);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .register-link a:hover {
-            color: #7c4ef3;
-        }
-
-        .welcome-text {
-            text-align: center;
-            color: var(--text-primary);
-            font-size: 1.8rem;
-            margin-bottom: 2.5rem;
-            line-height: 1.3;
-            font-weight: 500;
-        }
-
-        .alert {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: #ef4444;
-            margin-bottom: 1.5rem;
-            border-radius: 8px;
-            padding: 1rem;
-            border-left: 4px solid #ef4444;
-        }
-
-        .alert ul {
-            margin-bottom: 0;
-            padding-left: 1.5rem;
-        }
-
-        ::placeholder {
-            color: transparent;
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <div class="icon">
-                <i class="bi bi-display"></i>
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <h2><i class="bi bi-building me-2"></i>SchoolComSphere</h2>
+            <p class="text-secondary">Please login to continue</p>
+        </div>
+
+        <?php if (isset($_GET['error']) && $_GET['error'] === 'blocked'): ?>
+            <div class="alert alert-danger">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Your account is blocked until <?php echo date('M d, Y h:i A', strtotime($_GET['until'])); ?>
             </div>
-            <div class="welcome-text">Welcome to SchoolComSphere</div>
-        </div>
+        <?php endif; ?>
 
-        <div class="login-form">
-            <?php if (!empty($errors)): ?>
-                <div class="alert">
-                    <ul>
-                        <?php foreach ($errors as $error): ?>
-                            <li><?php echo htmlspecialchars($error); ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
+        <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
 
-            <form method="POST" action="" class="needs-validation" novalidate>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="username" name="username" 
-                           placeholder=" " required>
-                    <span class="input-label">Username:</span>
-                </div>
-
-                <div class="input-group">
-                    <input type="password" class="form-control" id="password" name="password" 
-                           placeholder=" " required>
-                    <span class="input-label">Password:</span>
-                </div>
-
-                <button type="submit" class="btn btn-login">LOGIN</button>
-
-                <div class="register-link">
-                    No account? <a href="register.php">Register here</a>
-                </div>
-            </form>
-        </div>
+        <form method="POST" action="">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    // Form validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html> 

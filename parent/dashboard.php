@@ -4,12 +4,26 @@ checkAuth();
 checkRole(['parent']);
 require_once '../config/database.php';
 
+// Verify and create user_activity table if it doesn't exist
+$create_table_query = "
+CREATE TABLE IF NOT EXISTS user_activity (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)";
+$conn->query($create_table_query);
+
 $user_id = getUserId();
 
 // Get parent information
-$parent_query = "SELECT p.* FROM parents p WHERE p.user_id = ?";
+$parent_query = "SELECT p.*, u.email, u.username 
+                FROM parents p 
+                JOIN users u ON p.user_id = u.id 
+                WHERE p.user_id = ?";
 $stmt = $conn->prepare($parent_query);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
 $parent = $stmt->get_result()->fetch_assoc();
 
@@ -25,6 +39,27 @@ $stmt = $conn->prepare($children_query);
 $stmt->bind_param("i", $parent['id']);
 $stmt->execute();
 $children = $stmt->get_result();
+
+// Get login/logout history
+$history_query = "SELECT * FROM user_activity 
+                 WHERE user_id = ? 
+                 AND action IN ('login', 'logout')
+                 ORDER BY created_at DESC 
+                 LIMIT 10";
+$stmt = $conn->prepare($history_query);
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$login_history = $stmt->get_result();
+
+// Get recent incidents
+$incidents_query = "SELECT * FROM incidents 
+                   WHERE user_id = ? 
+                   ORDER BY created_at DESC 
+                   LIMIT 5";
+$stmt = $conn->prepare($incidents_query);
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$recent_incidents = $stmt->get_result();
 
 // Get recent announcements
 $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at DESC LIMIT 5");
@@ -478,6 +513,186 @@ $announcements = $conn->query("SELECT * FROM announcements ORDER BY created_at D
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <!-- Login History -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Login History</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Time</th>
+                                        <th>Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    // Get login history with session duration
+                                    $login_query = "
+                                        WITH RankedEvents AS (
+                                            SELECT 
+                                                action,
+                                                created_at,
+                                                ROW_NUMBER() OVER (ORDER BY created_at DESC) as rn
+                                            FROM user_activity 
+                                            WHERE user_id = ? 
+                                            AND action = 'login'
+                                        )
+                                        SELECT 
+                                            r1.created_at as action_time,
+                                            r2.created_at as next_action_time,
+                                            TIMESTAMPDIFF(MINUTE, r1.created_at, r2.created_at) as duration
+                                        FROM RankedEvents r1
+                                        LEFT JOIN RankedEvents r2 ON r2.rn = r1.rn + 1
+                                        ORDER BY r1.created_at DESC
+                                        LIMIT 5";
+                                    $stmt = $conn->prepare($login_query);
+                                    $stmt->bind_param("i", $_SESSION['user_id']);
+                                    $stmt->execute();
+                                    $login_history = $stmt->get_result();
+                                    
+                                    while ($history = $login_history->fetch_assoc()): 
+                                        $duration = '';
+                                        if ($history['duration'] !== null) {
+                                            $hours = floor($history['duration'] / 60);
+                                            $minutes = $history['duration'] % 60;
+                                            if ($hours > 0) {
+                                                $duration = sprintf("%dh %dm", $hours, $minutes);
+                                            } else {
+                                                $duration = sprintf("%dm", $minutes);
+                                            }
+                                        }
+                                    ?>
+                                    <tr>
+                                        <td><?php echo date('M d, Y h:i A', strtotime($history['action_time'])); ?></td>
+                                        <td>
+                                            <?php echo $duration ? $duration : '<span class="text-muted">Active</span>'; ?>
+                                        </td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                    <?php if ($login_history->num_rows === 0): ?>
+                                    <tr>
+                                        <td colspan="2" class="text-center text-muted">No login history available</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Incidents -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Incidents</h5>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#newIncidentModal">
+                            <i class="bi bi-plus-circle me-1"></i>Report Incident
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Severity</th>
+                                        <th>Status</th>
+                                        <th>Reported</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($incident = $recent_incidents->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($incident['type']); ?></td>
+                                        <td>
+                                            <span class="badge bg-<?php 
+                                                echo match($incident['severity']) {
+                                                    'low' => 'success',
+                                                    'medium' => 'warning',
+                                                    'high' => 'danger',
+                                                    'critical' => 'dark',
+                                                    default => 'secondary'
+                                                };
+                                            ?>">
+                                                <?php echo ucfirst($incident['severity']); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-<?php 
+                                                echo match($incident['status']) {
+                                                    'open' => 'warning',
+                                                    'investigating' => 'info',
+                                                    'resolved' => 'success',
+                                                    default => 'secondary'
+                                                };
+                                            ?>">
+                                                <?php echo ucfirst($incident['status']); ?>
+                                            </span>
+                                        </td>
+                                        <td><?php echo date('M d, Y', strtotime($incident['created_at'])); ?></td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                    <?php if ($recent_incidents->num_rows === 0): ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted">No incidents reported yet</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Incident Modal -->
+    <div class="modal fade" id="newIncidentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-black">Report New Incident</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="report_incident.php" method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="type" class="form-label text-black">Incident Type</label>
+                            <select class="form-select text-black" id="type" name="type" required>
+                                <option value="">Select Type</option>
+                                <option value="technical">Technical Issue</option>
+                                <option value="security">Security Concern</option>
+                                <option value="behavior">Behavioral Issue</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="severity" class="form-label text-black">Severity</label>
+                            <select class="form-select text-black" id="severity" name="severity" required>
+                                <option value="">Select Severity</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label text-black">Description</label>
+                            <textarea class="form-control text-black" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Incident</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
